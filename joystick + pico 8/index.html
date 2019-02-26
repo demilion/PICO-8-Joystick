@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script async type="text/javascript"  src="CanvasGamepad.js"></script>
+  <script defer type="text/javascript" src="celeste.js" ></script>
+	  
+	  <script async type="text/javascript"  src="game.js"></script>
+	
+      <script async type="text/javascript"  src="multikey.js"></script>
+  
+  
+  
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+	
+	       <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>PICO-8 Cartridge</title>
+        <meta name="description" content="">
+    <title>Super Angry Pixel Gamepad</title>    
+    <style> 
+	
+	<!--
+
+canvas#canvas { width: 512px; height: 512px; }
+
+-->
+
+  
+
+   /* ------ POSITION GAME-CANVAS ------ */
+    canvas#canvas {
+      width: 100%;  height: 100%;                /* max game size: 512px */
+      image-rendering: optimizeSpeed;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: optimize-contrast;
+      image-rendering: pixelated;
+      -ms-interpolation-mode: nearest-neighbor;
+      border: 0;
+    }
+    @media screen and (max-width: 512px) {        /* game shrinks to fit screen on smaller screens */
+      canvas#canvas { width: 100%; height: auto; } }
+    .canvas-wrapper { text-align: center; }
+    .canvas-wrapper canvas { margin: 0 auto; }    /* center game */
+    @media screen and (min-height: 700px) {       /* game has top-margin on high screens */
+      .canvas-wrapper { margin-top: 80px; } }
+    @media screen and (min-height: 880px) {       /* game has more top-margin on higher screens */
+      .canvas-wrapper { margin-top: 180px; } }
+	  
+	  
+	  
+	  /* ------ pico8 control buttons [reset] [pause] [mute] ------ */
+    .pico8_btns { text-align: center; }
+    .pico8_el { width:82px; display:inline-block; margin: 1px; padding: 4px; text-align: center; color:#fff; background-color:#777; font-size: 9pt; cursor: pointer; }
+    .pico8_el a{ text-decoration: none; color:#fff; }
+    .pico8_el:hover{ background-color:#aaa; }
+    .pico8_el:link{ background-color:#aaa; }
+
+
+
+        @font-face{ 
+          font-family: "bit"; 
+          src: url("game/css/8bit.ttf"); 
+      }    
+      * {
+        padding: 0;
+        margin: 0;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none; /* Disable selection/copy in UIWebView */          
+      }            
+      html
+      {
+          -ms-touch-action: manipulation;
+          touch-action: manipulation;
+      }
+      body
+      {
+          width:  100%;
+          height: 100%;
+          margin: 0px;  
+          padding:0px; 
+          touch-action: none;
+          -ms-touch-action: none;
+          overflow:hidden;
+          font-family: "bit";
+      }
+      canvas
+      {
+          image-rendering: optimizeSpeed;
+          image-rendering: -moz-crisp-edges;
+          image-rendering: -webkit-optimize-contrast;
+          image-rendering: -o-crisp-edges;
+          image-rendering: crisp-edges;
+          -ms-interpolation-mode: nearest-neighbor;
+           touch-action-delay: none;
+          touch-action: none;
+          -ms-touch-action: none;
+      }
+	  
+	  
+	  body {
+	  /*
+    background: #FFF url("https://i.imgur.com/t6cUFsI.png") top left repeat-x;
+    font-family:"Brush Script MT", cursive;
+*/
+	}
+h1 {
+    font-size: 2em;
+    margin-bottom: 0.2em;
+    padding-bottom: 0;
+}
+p {
+    font-size: 1.5em;
+    margin-top: 0;
+    padding-top: 0;
+}
+#page {
+    display: none;
+}
+#loading {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 1);
+    background-image: url("http://i.stack.imgur.com/MnyxU.gif");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+	  
+  </style>     
+  </head>
+  <body>
+  
+  
+  
+  
+  
+
+  
+    <canvas id="game"></canvas>	
+
+
+	
+	<div style="width:0;"  id="page">
+<canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()"></canvas>
+
+	   
+	<script   type="text/javascript">
+	
+		var canvas = document.getElementById("canvas");
+		canvas.width = window.innerWidth;
+		canvas.height = window.innerHeight;
+
+		// show Emscripten environment where the canvas is
+		// arguments are passed to PICO-8
+		
+		var Module = {};
+		Module.canvas = canvas;
+		
+		/*
+			// When pico8_buttons is defined, PICO-8 takes each int to be a live bitfield
+			// representing the state of each player's buttons
+			
+			var pico8_buttons = [0, 0, 0, 0, 0, 0, 0, 0]; // max 8 players
+			pico8_buttons[0] = 2 | 16; // example: player 0, RIGHT and Z held down
+			
+			// when pico8_gpio is defined, reading and writing to gpio pins will
+			// read and write to these values
+			var pico8_gpio = new Array(128);
+		*/
+		
+	
+	
+		
+	</script>	  
+	
+	  
+	   <!-- PICO8 CONTROL BUTTONS [reset] [pause] [fullscreen - not visible when using touch-control] [mute] -->
+  <!--<div class="pico8_btns">
+    <span class="pico8_el" onclick="Module.pico8Reset();">
+      <img
+        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAaklEQVR4Ae2dOwoAMQhE15A+rfc/3bZ7AlMnQfywCkKsfcgMM9ZP+QHtIn0vLeBAFduiFdQ/0DmvtR5LXJ6CPSXe2ZXcFNlTxFbemKrbZPs35XogeS9xeQr+anT6LzoOwEDwZJ7jwhXUnwkTTiDQ2Ja34AAAABB0RVh0TG9kZVBORwAyMDExMDIyMeNZtsEAAAAASUVORK5CYII="
+        alt="Reset" width=12 height=12/> Reset</span>
+    <span class="pico8_el" onclick="Module.pico8TogglePaused();">
+      <img
+        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAPUlEQVR4Ae3doQ0AIAxEUWABLPtPh2WCq26DwFSU/JPNT166QSu/Hg86W9dwLte+diP7AwAAAAAAgD+A+jM2ZAgo84I0PgAAABB0RVh0TG9kZVBORwAyMDExMDIyMeNZtsEAAAAASUVORK5CYII="
+        alt="Pause" width=12 height=12/> Pause</span>
+    <span class="pico8_el show-if-not-touch" onclick="Module.requestFullScreen(true, false);">
+      <img
+        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAaklEQVR4Ae2dsQ1AIQhExfze1v2ns3UCrfgFhmgUUAoGgHscp21wX9BqaZoDojbB96OkDJKNcTN2BHTyYNYmoT2BlPL7BKgcPfHjAVXKKadkHOn9K1r16N0czN6a95N8mnA7Aq2fTZ3Af3UKmCSMazL8HwAAABB0RVh0TG9kZVBORwAyMDExMDIyMeNZtsEAAAAASUVORK5CYII="
+        alt="Fullscreen" width=12 height=12/> Fullscreen</span>
+    <span class="pico8_el" onclick="Module.pico8ToggleSound();">
+      <img
+        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAXklEQVR4Ae2doQ4AIQxD4YLH8v9fh+ULhjpxxSwLg2uyapr1JRu1iV5Z+1BGl4+xNpX38SYo2uRvYiT5LwEmt+ocgXVLrhPEgBiw8Q5w7/kueSkK+D2tJO4E/I3GrwkqQCBabEj/4QAAABB0RVh0TG9kZVBORwAyMDExMDIyMeNZtsEAAAAASUVORK5CYII="
+        alt="Toggle Sound" width=12 height=12/> Sound</span>
+		
+		
+ <input id="myBtn" class="button" type="button" value="DONATION" onclick="startRewardVideo('some parameters can be passed to Android from here')" >
+            <script type="text/javascript">
+                function startRewardVideo(paramFromJS) {
+					Module.pico8TogglePaused();
+					<!--document.getElementById("myBtn").disabled = true;
+                    Android.startRewardVideoAndroidFunction(paramFromJS);
+                }
+				
+
+            </script>
+  
+ 
+  </div>
+  -->
+	  
+	  
+	 	
+
+	</div>
+	
+	
+	</center>
+	  
+	 
+
+	   <div id="loading"></div>
+	  
+	  
+  </body>
+</html>
