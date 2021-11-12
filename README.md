@@ -111,4 +111,3 @@ Me .- Ok, ok, I leave my code so you can steal it [![ko-fi](https://www.ko-fi.co
 
 
 Let me know what you think!!!!!!
-https://play.google.com/store/apps/details?id=com.demilion.celesteclassic
